@@ -1,3 +1,4 @@
+from example import process_orders
 
 def test_process_orders_math_check():
     test_orders = [
