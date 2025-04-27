@@ -28,3 +28,42 @@ def process_user_data(user_data):
     }
 
     return processed_data
+
+def process_orders(orders):
+    processed_orders = []
+
+    for order in orders:
+        # Validate order
+        if not ('id' in order and 'items' in order and isinstance(order['items'], list)):
+            print(f"Skipping invalid order: {order}")
+            continue
+
+        total_price = 0
+        for item in order['items']:
+            if 'price' not in item or 'quantity' not in item:
+                print(f"Invalid item in order {order['id']}: {item}")
+                continue
+
+            item_total = item['price'] * item['quantity']
+            total_price += item_total
+
+        # Apply discount
+        if total_price > 100:
+            total_price *= 0.9
+        elif total_price > 50:
+            total_price *= 0.95
+
+        # Calculate shipping
+        shipping_cost = 5 if total_price < 50 else 0
+
+        # Finalize order
+        final_order = {
+            'order_id': order['id'],
+            'total': round(total_price + shipping_cost, 2),
+            'shipping': shipping_cost,
+            'num_items': len(order['items'])
+        }
+
+        processed_orders.append(final_order)
+
+    return processed_orders
