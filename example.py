@@ -53,8 +53,8 @@ def process_orders(orders):
         elif total_price > 50:
             total_price *= 0.95
 
-        # Calculate shipping
-        shipping_cost = 5 if total_price < 50 else 0
+        # Intentional Error: Incorrect shipping calculation
+        shipping_cost = 998 if total_price < 50 else 0  # <-- Intentionally incorrect (should be 5)
 
         # Finalize order
         final_order = {
